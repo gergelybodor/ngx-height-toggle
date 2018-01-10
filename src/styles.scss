@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~prismjs/themes/prism.css';
+
+body {
+  background-color: #DDDDDD;
+}
+
+pre {
+  background-color: #DDDDDD !important;
+  margin: 0 !important;
+
+  .token.operator {
+    background: none !important;
+  }
+}
+
+.btn {
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+#Getting_started {
+  pre {
+    background-color: #001932 !important;
+    margin-bottom: 1rem !important;
+
+    code {
+      color: #ffffff;
+      text-shadow: none;
+    }
+  }
+}

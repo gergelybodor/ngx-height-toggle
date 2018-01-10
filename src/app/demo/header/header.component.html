@@ -1,0 +1,19 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" routerLink="/getting-started">ngx-height-toggle</a>
+  <button class="navbar-toggler" type="button" (click)="toggleNavBar()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" [class.show]="open">
+    <div class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/getting-started" routerLinkActive="active">Getting started</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/height-change" routerLinkActive="active">Height change</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/content-change" routerLinkActive="active">Content change</a>
+      </li>
+    </div>
+  </div>
+</nav>

@@ -1,16 +1,19 @@
 {
-  "name": "ngx-height-toggler",
-  "version": "0.0.0",
+  "name": "ngx-height-toggle",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --aot",
     "build": "ng build",
+    "build:lib": "ng-packagr",
+    "build:demo": "ng build --prod --aot --output-path \"dist/docs\" --base-href \"https://bgolyoo.github.io/ngx-height-toggle/\"",
+    "deploy:demo": "angular-cli-ghpages --dir \"dist/docs\" --no-silent",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
@@ -29,10 +32,14 @@
     "@angular/cli": "1.5.3",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
+    "@ngx-prism/core": "^1.0.1",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "angular2-template-loader": "^0.6.2",
+    "bootstrap": "4.0.0-beta.2",
     "codelyzer": "~3.2.0",
+    "electron": "^1.7.10",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
@@ -41,9 +48,11 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ng-packagr": "^1.6.0",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "wallaby-webpack": "^3.9.4"
   }
 }

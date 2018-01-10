@@ -1,27 +1,120 @@
-# NgxHeightToggler
+# ngx-height-toggle - [Angular](http://angular.io/) directive to toggle the height of html elements to their content's height
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.3.
+[![npm version](https://badge.fury.io/js/ngx-height-toggle.svg)](https://badge.fury.io/js/ngx-height-toggle)
 
-## Development server
+As of yet, there is no easy way to change the height of html elements from 0 to auto and back in angular. You can only go so far with css code. Even if you make it work, you might want to change the height when the element's content changes.
+I faced these problems myself and decided to create this package, with which you can accomplish said things.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This implementation is far from being perfect, so if you find some bug please report it on github issues, thanks!
 
-## Code scaffolding
+## Table of Contents
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [Demo](#demo)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Developing](#developing)
 
-## Build
+## Demo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Check out the demo at https://bgolyoo.github.io/ngx-height-toggle
 
-## Running unit tests
+## Dependencies
+* [Angular](https://angular.io) (tested with 5.1.1)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
+After installing the above dependencies, install `ngx-height-toggle` via npm:
+```shell
+npm install --save ngx-height-toggle
+```
+or with yarn:
+```shell
+yarn add ngx-height-toggle
+```
+Once installed you need to import `HeightToggleModule` in your module where you'd like to use the directive:
+```js
+import { HeightToggleModule } from 'ngx-height-toggle';
 
-## Running end-to-end tests
+@NgModule({
+  declarations: [MyComponent, ...],
+  imports: [HeightToggleModule, ...], 
+})
+export class MyModule {
+}
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Usage
 
-## Further help
+### Height change
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+You have to add the directive `ngxHeightToggle` to the element you want to toggle, and pass a variable telling it whether it should be expanded or collapsed.
+```html
+<div class="collapsible" ngxHeightToggle [open]="open">
+    <p>some text</p>
+</div>
+```
+When you toggle the height change the variable.
+```js
+export class MyComponent {
+
+    public open = false;
+
+    public toggle(): void {
+        this.open = !this.open;
+    }
+
+}
+```
+The other important thing is you have to specify a transition and overflow for your element in css.
+```css
+.collapsible {
+    overflow: hidden;
+    transition: height 0.5s ease-out;
+}
+```
+
+### Content change
+
+If you want to adjust the element's height when its content changes, import `HeightToggleService` into your component and call its `contentChange` method after setting your content.
+```html
+<div class="collapsible" ngxHeightToggle [open]="open">
+    <p>{{content}}</p>
+</div>
+``` 
+```js
+import { HeightToggleService } from 'ngx-height-toggle';
+
+export class MyComponent {
+
+    public open = false;
+    public content = 'some text';
+    
+    constructor(private heightToggleService: HeightToggleService) { }
+
+    public toggle(): void {
+        this.open = !this.open;
+    }
+
+    public updateContent(): void {
+        this.content = 'some other text';
+        this.heightToggleService.contentChange();
+    }
+
+}
+```
+
+## Developing
+
+If you want to work on this project, first you need to clone it from the github repository.
+
+When that's done install dependencies via npm:
+```shell
+npm install
+```
+or if you have yarn installed:
+```shell
+yarn
+```
+To serve to application run the following:
+```shell
+ng serve --aot
+```

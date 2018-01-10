@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ngx-height-toggler App', () => {
+describe('ngx-height-toggle App', () => {
   let page: AppPage;
 
   beforeEach(() => {
