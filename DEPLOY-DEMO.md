@@ -22,6 +22,7 @@ npm install -g angular-cli-ghpages
 ```shell
 npm run test
 ```
+
 2) Build demo with npm:
 ```shell
 npm run build:demo
@@ -31,6 +32,7 @@ or with yarn:
 yarn build:demo
 ```
 This will generate all the necessary built files in the `/dist/docs/` folder for publishing.
+
 3) Publish built demo app to github pages with npm:
 ```shell
 npm run deploy:demo
@@ -39,4 +41,5 @@ or with yarn:
 ```shell
 yarn deploy:demo
 ```
+
 4) View demo at https://bgolyoo.github.io/ngx-height-toggle
