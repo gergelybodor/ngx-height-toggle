@@ -1,6 +1,6 @@
 {
   "name": "ngx-height-toggle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "angular",
     "angular2",
@@ -10,7 +10,14 @@
     "content-change",
     "npm-package"
   ],
-  "author": "Bodor Gergely",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgolyoo/ngx-height-toggle.git"
+  },
+  "author": {
+    "name": "Bodor Gergely",
+    "email": "bgolyoo@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bgolyoo/ngx-height-toggle/issues"
