@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 })
 export class GettingStartedComponent {
 
-  public importCode = `import { HeightToggleModule } from 'ngx-height-toggle';
+  public importCode = `import { NgxHeightToggleModule } from 'ngx-height-toggle';
 
 @NgModule({
   declarations: [MyComponent, ...],
-  imports: [HeightToggleModule, ...],
+  imports: [NgxHeightToggleModule, ...],
 })
 export class MyModule { }`;
 

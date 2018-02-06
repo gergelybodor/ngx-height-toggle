@@ -1,4 +1,4 @@
-# ngx-height-toggle - [Angular](http://angular.io/) directive to toggle the height of html elements to their content's height
+# ngx-height-toggle - [Angular(2+)](http://angular.io/) directive to change the height of html elements to their content's height on toggle and on content change.
 
 [![npm version](https://badge.fury.io/js/ngx-height-toggle.svg)](https://badge.fury.io/js/ngx-height-toggle)
 
@@ -30,13 +30,13 @@ or with yarn:
 ```shell
 yarn add ngx-height-toggle
 ```
-Once installed you need to import `HeightToggleModule` in your module where you'd like to use the directive:
+Once installed you need to import `NgxHeightToggleModule` in your module where you'd like to use the directive:
 ```js
-import { HeightToggleModule } from 'ngx-height-toggle';
+import { NgxHeightToggleModule } from 'ngx-height-toggle';
 
 @NgModule({
   declarations: [MyComponent, ...],
-  imports: [HeightToggleModule, ...], 
+  imports: [NgxHeightToggleModule, ...], 
 })
 export class MyModule {
 }
@@ -81,14 +81,14 @@ If you want to adjust the element's height when its content changes, import `Hei
 </div>
 ``` 
 ```js
-import { HeightToggleService } from 'ngx-height-toggle';
+import { NgxHeightToggleService } from 'ngx-height-toggle';
 
 export class MyComponent {
 
     public open = false;
     public content = 'some text';
     
-    constructor(private heightToggleService: HeightToggleService) { }
+    constructor(private heightToggleService: NgxHeightToggleService) { }
 
     public toggle(): void {
         this.open = !this.open;

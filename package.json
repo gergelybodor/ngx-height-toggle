@@ -1,7 +1,21 @@
 {
   "name": "ngx-height-toggle",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "keywords": [
+    "angular",
+    "angular2",
+    "ngx",
+    "ngx-height-toggle",
+    "height-toggle",
+    "content-change",
+    "npm-package"
+  ],
+  "author": "Bodor Gergely",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bgolyoo/ngx-height-toggle/issues"
+  },
+  "homepage": "https://github.com/bgolyoo/ngx-height-toggle#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
