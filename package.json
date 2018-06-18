@@ -1,6 +1,6 @@
 {
   "name": "ngx-height-toggle",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Angular(2+) directive to change the height of html elements to their content's height on toggle and on content change.",
   "keywords": [
     "angular",
