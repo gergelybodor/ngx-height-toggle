@@ -19,7 +19,8 @@ This implementation is far from being perfect, so if you find some bug please re
 Check out the demo at https://bgolyoo.github.io/ngx-height-toggle
 
 ## Dependencies
-* [Angular](https://angular.io) (tested with 5.1.1)
+* [Angular](https://angular.io) (tested with 6.0.5)
+* [Angular CLI](https://github.com/angular/angular-cli) (tested with 6.0.8)
 
 ## Installation
 After installing the above dependencies, install `ngx-height-toggle` via npm:

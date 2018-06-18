@@ -9,15 +9,15 @@ const routes: Routes = [
   },
   {
     path: 'getting-started',
-    loadChildren: 'app/demo/getting-started/getting-started.module#GettingStartedModule'
+    loadChildren: './demo/getting-started/getting-started.module#GettingStartedModule'
   },
   {
     path: 'height-change',
-    loadChildren: 'app/demo/height-change/height-change.module#HeightChangeModule'
+    loadChildren: './demo/height-change/height-change.module#HeightChangeModule'
   },
   {
     path: 'content-change',
-    loadChildren: 'app/demo/content-change/content-change.module#ContentChangeModule'
+    loadChildren: './demo/content-change/content-change.module#ContentChangeModule'
   },
   {
     path: '**',
