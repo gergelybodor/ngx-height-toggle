@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 import { NgxHeightToggleService } from './ngx-height-toggle.service';
 
 describe('NgxHeightToggleService', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [NgxHeightToggleService]
@@ -14,7 +13,6 @@ describe('NgxHeightToggleService', () => {
   }));
 
   describe('contentChange', () => {
-
     it('should call next on contentChanges subject object', inject([NgxHeightToggleService], (service: NgxHeightToggleService) => {
       const next = spyOn(service.contentChanges, 'next').and.callFake(() => {
         return null;

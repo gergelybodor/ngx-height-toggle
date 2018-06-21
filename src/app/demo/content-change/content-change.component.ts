@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IpsumService } from '../shared/services/ipsum/ipsum.service';
-import { NgxHeightToggleService } from '../../modules/ngx-height-toggle/ngx-height-toggle.service';
+import { NgxHeightToggleService } from 'lib/ngx-height-toggle.service';
 
 @Component({
   selector: 'app-content-change',

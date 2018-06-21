@@ -1,9 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { NgxHeightToggleModule } from '../../modules/ngx-height-toggle/ngx-height-toggle.module';
 import { ContentChangeComponent } from './content-change.component';
 import { IpsumService } from '../shared/services/ipsum/ipsum.service';
-import { NgxHeightToggleService } from '../../modules/ngx-height-toggle/ngx-height-toggle.service';
+import { NgxHeightToggleModule } from 'lib/ngx-height-toggle.module';
+import { NgxHeightToggleService } from 'lib/ngx-height-toggle.service';
 
 describe('ContentChangeComponent', () => {
 

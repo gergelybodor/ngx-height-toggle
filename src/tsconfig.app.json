@@ -1,17 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "@my/lib": [ "../dist/lib" ]
-    },
     "outDir": "../out-tsc/app",
-    "baseUrl": "./",
     "module": "es2015",
     "types": []
   },
   "exclude": [
-    "test.ts",
-    "wallabyTest.ts",
+    "src/test.ts",
     "**/*.spec.ts"
   ]
 }

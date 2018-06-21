@@ -1,9 +1,6 @@
-import {
-  ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, Renderer2,
-  SimpleChanges
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 import { NgxHeightToggleService } from './ngx-height-toggle.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[ngxHeightToggle]'
@@ -50,9 +47,9 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   constructor(private elRef: ElementRef,
-              private renderer: Renderer2,
-              private ref: ChangeDetectorRef,
-              private service: NgxHeightToggleService) { }
+    private renderer: Renderer2,
+    private ref: ChangeDetectorRef,
+    private service: NgxHeightToggleService) { }
 
   ngOnInit(): void {
     this.listenForContentChanges();

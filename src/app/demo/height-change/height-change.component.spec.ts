@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { NgxHeightToggleModule } from '../../modules/ngx-height-toggle/ngx-height-toggle.module';
+import { NgxHeightToggleModule } from 'lib/ngx-height-toggle.module';
 import { HeightChangeComponent } from './height-change.component';
 import { IpsumService } from '../shared/services/ipsum/ipsum.service';
 
