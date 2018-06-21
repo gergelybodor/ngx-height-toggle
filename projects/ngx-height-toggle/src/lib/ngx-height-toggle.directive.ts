@@ -46,10 +46,12 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, OnDestroy {
     return totalMarginHeight;
   }
 
-  constructor(private elRef: ElementRef,
+  constructor(
+    private elRef: ElementRef,
     private renderer: Renderer2,
     private ref: ChangeDetectorRef,
-    private service: NgxHeightToggleService) { }
+    private service: NgxHeightToggleService
+  ) { }
 
   ngOnInit(): void {
     this.listenForContentChanges();
