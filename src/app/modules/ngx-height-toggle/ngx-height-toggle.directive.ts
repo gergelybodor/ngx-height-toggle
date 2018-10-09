@@ -1,37 +1,127 @@
 import {
-  ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, Renderer2,
-  SimpleChanges
+  Directive,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ElementRef,
+  Renderer2,
+  OnInit,
+  ChangeDetectorRef,
+  AfterViewChecked
 } from '@angular/core';
-import { NgxHeightToggleService } from './ngx-height-toggle.service';
-import { Subscription } from 'rxjs/Subscription';
+import { timer } from 'rxjs';
 
 @Directive({
   selector: '[ngxHeightToggle]'
 })
-export class NgxHeightToggleDirective implements OnInit, OnChanges, OnDestroy {
+export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChecked {
+  @Input()
+  open: boolean;
+  @Input()
+  closedHeight = 0;
+  @Input()
+  transitionDuration = 500;
+  @Input()
+  transitionProperty = 'height';
+  @Input()
+  transitionTimingFunction = 'linear';
+  @Input()
+  transitionDelay = 0;
+  @Input()
+  enableChangeDetection = true;
 
-  @Input() open: boolean;
-  @Input() closedHeight = 0;
-  private lastHeight: number;
-  private contentChangesSubscription: Subscription;
+  private lastHeight: number | null = null;
+  private inProgress = false;
 
-  get closedHeightInPixels(): string {
-    return this.closedHeight + 'px';
+  constructor(private elRef: ElementRef, private renderer: Renderer2, private chRef: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.lastHeight = this.closedHeight;
+    this.setInitialStyle();
   }
 
-  private static getContentHeight(element: any): number {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['open'] && !changes['open'].firstChange && changes['open'].previousValue !== changes['open'].currentValue) {
+      if (changes['open'].currentValue) {
+        this.expand();
+      } else {
+        this.collapse();
+      }
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.enableChangeDetection && !this.inProgress && this.open) {
+      const contentHeight = this.getContentHeight(this.elRef.nativeElement);
+      if (this.lastHeight > contentHeight) {
+        this.collapse(contentHeight);
+      } else if (this.lastHeight < contentHeight) {
+        this.expand(contentHeight);
+      }
+    }
+  }
+
+  collapse(toHeight?: number) {
+    this.inProgress = true;
+    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
+    this.chRef.detectChanges();
+    timer(1).subscribe(() => {
+      this.lastHeight = toHeight && this.lastHeight !== null && toHeight < this.lastHeight ? toHeight : this.closedHeight;
+      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
+      this.chRef.detectChanges();
+      timer(this.transitionDuration).subscribe(() => {
+        // this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+        this.inProgress = false;
+      });
+    });
+  }
+
+  expand(toHeight?: number) {
+    this.inProgress = true;
+    this.renderer.setStyle(
+      this.elRef.nativeElement,
+      'height',
+      `${toHeight && this.lastHeight !== null ? this.lastHeight : this.closedHeight}px`
+    );
+    this.chRef.detectChanges();
+    const contentHeight = this.getContentHeight(this.elRef.nativeElement);
+    this.lastHeight = toHeight && this.lastHeight !== null && toHeight > this.lastHeight ? toHeight : contentHeight;
+    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
+    this.chRef.detectChanges();
+    timer(this.transitionDuration).subscribe(() => {
+      this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+      this.inProgress = false;
+    });
+  }
+
+  private setInitialStyle() {
+    this.inProgress = true;
+    timer(1).subscribe(() => {
+      this.lastHeight = this.open ? this.getContentHeight(this.elRef.nativeElement) : this.closedHeight;
+      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
+      this.renderer.setStyle(this.elRef.nativeElement, 'overflow', 'hidden');
+      this.renderer.setStyle(
+        this.elRef.nativeElement,
+        'transition',
+        `${this.transitionProperty} ${this.transitionDuration}ms ${this.transitionTimingFunction} ${this.transitionDelay}ms`
+      );
+      this.inProgress = false;
+    });
+  }
+
+  private getContentHeight(element: any): number {
     const children = element.children;
     let contentHeight = 0;
     if (children && children.length) {
       for (const child of children) {
-        contentHeight += child && child.scrollHeight ? child.scrollHeight : 0;
+        contentHeight += child && child.clientHeight ? child.clientHeight : 0;
       }
     }
-    contentHeight += NgxHeightToggleDirective.getMarginHeightOfChildren(children);
+    contentHeight += this.getMarginHeightOfChildren(children);
     return contentHeight;
   }
 
-  private static getMarginHeightOfChildren(children: Array<any>): number {
+  private getMarginHeightOfChildren(children: Array<any>): number {
     let totalMarginHeight = 0;
     let previousChildMarginBottom = 0;
     for (const child of children) {
@@ -41,112 +131,11 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, OnDestroy {
         marginTop = +window.getComputedStyle(child).marginTop.replace('px', '');
         marginBottom = +window.getComputedStyle(child).marginBottom.replace('px', '');
       } catch (error) {
-        console.warn('Couldn\'t read marginTop and marginBottom property!', error);
+        console.warn("Couldn't read marginTop and marginBottom property!", error);
       }
       totalMarginHeight += marginBottom + (marginTop > previousChildMarginBottom ? marginTop - previousChildMarginBottom : 0);
       previousChildMarginBottom = marginBottom;
     }
     return totalMarginHeight;
   }
-
-  constructor(private elRef: ElementRef,
-              private renderer: Renderer2,
-              private ref: ChangeDetectorRef,
-              private service: NgxHeightToggleService) { }
-
-  ngOnInit(): void {
-    this.listenForContentChanges();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.listenForOpenChanges(changes);
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeFromContentChanges();
-  }
-
-  private listenForOpenChanges(changes: SimpleChanges): void {
-    if (!!changes['open'] && !!changes['open'].previousValue !== !!changes['open'].currentValue && !changes['open'].firstChange) {
-      // only initiate expand and collapse when input value changes after is gets set by the component
-      if (changes['open'].currentValue) {
-        this.expandSection(this.elRef.nativeElement);
-      } else {
-        this.collapseSection(this.elRef.nativeElement);
-      }
-    } else if (!!changes['open'] && !changes['open'].currentValue && changes['open'].firstChange) {
-      // set section height to closedHeight if initial input value is false
-      this.renderer.setStyle(this.elRef.nativeElement, 'height', this.closedHeightInPixels);
-    }
-  }
-
-  private listenForContentChanges(): void {
-    this.contentChangesSubscription = this.service.contentChanges.subscribe(() => {
-      this.ref.detectChanges();
-      if (this.open) {
-        this.changeSectionHeight(this.elRef.nativeElement);
-      }
-    });
-  }
-
-  private changeSectionHeight(element: any): void {
-    const previousSectionHeight = element.scrollHeight;
-    const contentHeight = NgxHeightToggleDirective.getContentHeight(element);
-    if (previousSectionHeight <= contentHeight) {
-      this.expandSection(element, contentHeight);
-    } else {
-      this.collapseSection(element, previousSectionHeight, contentHeight);
-    }
-  }
-
-  private unsubscribeFromContentChanges(): void {
-    if (this.contentChangesSubscription) {
-      this.contentChangesSubscription.unsubscribe();
-    }
-  }
-
-  private expandSection(element: any, contentHeight?: number): void {
-    // get the height of the element's inner content, regardless of its actual size
-    const sectionHeight = contentHeight !== undefined ? contentHeight : element.scrollHeight;
-    // check whether last height set by last operation is equal to desired height
-    if (this.lastHeight === sectionHeight) {
-      // if so don't execute
-      return;
-    }
-    // else set last known height to desired height
-    this.lastHeight = sectionHeight;
-    // have the element transition to the height of its inner content
-    this.renderer.setStyle(element, 'height', sectionHeight + 'px');
-  }
-
-  private collapseSection(element: any, previousSectionHeight?: number, contentHeight?: number): void {
-    // get the height of the element's inner content, regardless of its actual size
-    const sectionHeight = previousSectionHeight !== undefined ? previousSectionHeight : element.scrollHeight;
-    // check whether operation initiated by content change
-    if (contentHeight !== undefined) {
-      // check whether last height set by last operation is equal to desired height
-      if (this.lastHeight === contentHeight) {
-        // don't execute
-        return;
-      } else {
-        // set last known height to desired height
-        this.lastHeight = contentHeight;
-      }
-    } else {
-      // when content didn't change we want to collapse height to closedHeight, so set last known height to closedHeight
-      this.lastHeight = this.closedHeight;
-    }
-    // temporarily disable all css transitions
-    const elementTransition = element.style.transition;
-    this.renderer.setStyle(element, 'transition', '');
-    // on the next frame (as soon as the previous style change has taken effect),
-    // explicitly set the element's height to its current pixel height, so we
-    // aren't transitioning out of 'auto'
-    this.renderer.setStyle(element, 'height', sectionHeight + 'px');
-    this.renderer.setStyle(element, 'transition', elementTransition);
-    // on the next frame (as soon as the previous style change has taken effect),
-    // have the element transition to height: 0
-    this.renderer.setStyle(element, 'height', (contentHeight !== undefined ? contentHeight : this.closedHeight) + 'px');
-  }
-
 }
