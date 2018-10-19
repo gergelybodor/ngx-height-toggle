@@ -5,13 +5,15 @@ import { Component } from '@angular/core';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-
   public open = false;
 
-  constructor() { }
+  constructor() {}
 
-  public toggleNavBar() {
-    this.open = !this.open;
+  public toggleNavBar(open?: boolean) {
+    if (open === undefined) {
+      this.open = !this.open;
+    } else {
+      this.open = open;
+    }
   }
-
 }

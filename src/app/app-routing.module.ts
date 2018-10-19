@@ -4,12 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'getting-started',
+    redirectTo: 'default-collapsible',
     pathMatch: 'full'
-  },
-  {
-    path: 'getting-started',
-    loadChildren: './demo/getting-started/getting-started.module#GettingStartedModule'
   },
   {
     path: 'default-collapsible',
@@ -21,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'getting-started'
+    redirectTo: 'default-collapsible'
   }
 ];
 

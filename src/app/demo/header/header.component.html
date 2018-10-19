@@ -6,15 +6,12 @@
   <div class="collapse navbar-collapse" [class.show]="open">
     <div class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/getting-started" routerLinkActive="active">Getting started</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/default-collapsible" routerLinkActive="active">
+        <a class="nav-link" routerLink="/default-collapsible" routerLinkActive="active" (click)="toggleNavBar(false)">
           Default collapsible
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/collapsible-in-collapsible" routerLinkActive="active">
+        <a class="nav-link" routerLink="/collapsible-in-collapsible" routerLinkActive="active" (click)="toggleNavBar(false)">
           Collapsible in collapsible
         </a>
       </li>
