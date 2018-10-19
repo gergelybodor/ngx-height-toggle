@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ContentChangeComponent } from './content-change.component';
+import { CollapsibleInCollapsiblePageComponent } from './collapsible-in-collapsible-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ContentChangeComponent
+    component: CollapsibleInCollapsiblePageComponent
   }
 ];
 
