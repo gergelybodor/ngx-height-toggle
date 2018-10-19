@@ -6914,11 +6914,6 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs-compat@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.2.1.tgz#f5a5e4bd700db414e82aa7cb34e5c9222c6d3756"
-  integrity sha512-Pst0lkAwVodBbBOIZic9aM1vY9asJ2u8GfKN115+goIH83PAlizJDyvixuxPAuQ1UtkmBuro7+0PqKQ3PSkhEg==
-
 rxjs@^6.0.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.2.1.tgz#246cebec189a6cbc143a3ef9f62d6f4c91813ca1"
