@@ -9,7 +9,8 @@ import {
   ChangeDetectorRef,
   AfterViewChecked
 } from '@angular/core';
-import { timer } from 'rxjs';
+import { timer, interval } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive({
   selector: '[ngxHeightToggle]'
@@ -30,13 +31,19 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
   @Input()
   enableChangeDetection = true;
 
-  private lastHeight: number | null = null;
+  get currentHeight(): number {
+    return this.elRef.nativeElement.getBoundingClientRect().height;
+  }
+
+  get transitionValue(): string {
+    return `${this.transitionProperty} ${this.transitionDuration}ms ${this.transitionTimingFunction} ${this.transitionDelay}ms`;
+  }
+
   private inProgress = false;
 
   constructor(private elRef: ElementRef, private renderer: Renderer2, private chRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.lastHeight = this.closedHeight;
     this.setInitialStyle();
   }
 
@@ -53,9 +60,9 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
   ngAfterViewChecked() {
     if (this.enableChangeDetection && !this.inProgress && this.open) {
       const contentHeight = this.getContentHeight(this.elRef.nativeElement);
-      if (this.lastHeight > contentHeight) {
+      if (this.currentHeight > contentHeight) {
         this.collapse(contentHeight);
-      } else if (this.lastHeight < contentHeight) {
+      } else if (this.currentHeight < contentHeight) {
         this.expand(contentHeight);
       }
     }
@@ -63,14 +70,10 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
 
   collapse(toHeight?: number) {
     this.inProgress = true;
-    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
-    this.chRef.detectChanges();
+    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.currentHeight}px`);
     timer(1).subscribe(() => {
-      this.lastHeight = toHeight && this.lastHeight !== null && toHeight < this.lastHeight ? toHeight : this.closedHeight;
-      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
-      this.chRef.detectChanges();
+      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${toHeight ? toHeight : this.closedHeight}px`);
       timer(this.transitionDuration).subscribe(() => {
-        // this.renderer.removeStyle(this.elRef.nativeElement, 'height');
         this.inProgress = false;
       });
     });
@@ -78,35 +81,47 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
 
   expand(toHeight?: number) {
     this.inProgress = true;
-    this.renderer.setStyle(
-      this.elRef.nativeElement,
-      'height',
-      `${toHeight && this.lastHeight !== null ? this.lastHeight : this.closedHeight}px`
-    );
-    this.chRef.detectChanges();
+    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.currentHeight}px`);
     const contentHeight = this.getContentHeight(this.elRef.nativeElement);
-    this.lastHeight = toHeight && this.lastHeight !== null && toHeight > this.lastHeight ? toHeight : contentHeight;
-    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
-    this.chRef.detectChanges();
+    this.renderer.setStyle(this.elRef.nativeElement, 'height', `${toHeight ? toHeight : contentHeight}px`);
     timer(this.transitionDuration).subscribe(() => {
-      this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+      console.log(this.currentHeight, contentHeight);
+      // if (!this.enableChangeDetection && Math.ceil(this.currentHeight) === contentHeight) {
+      //   this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+      // }
+
+      if (!this.enableChangeDetection) {
+        if (this.currentHeight === contentHeight) {
+          this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+        } else {
+          interval(100)
+            .pipe(takeUntil(timer(500)))
+            .subscribe(() => {
+              if (this.currentHeight === contentHeight) {
+                this.renderer.removeStyle(this.elRef.nativeElement, 'height');
+              }
+            });
+        }
+      }
+
       this.inProgress = false;
     });
   }
 
   private setInitialStyle() {
     this.inProgress = true;
-    timer(1).subscribe(() => {
-      this.lastHeight = this.open ? this.getContentHeight(this.elRef.nativeElement) : this.closedHeight;
-      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.lastHeight}px`);
-      this.renderer.setStyle(this.elRef.nativeElement, 'overflow', 'hidden');
-      this.renderer.setStyle(
-        this.elRef.nativeElement,
-        'transition',
-        `${this.transitionProperty} ${this.transitionDuration}ms ${this.transitionTimingFunction} ${this.transitionDelay}ms`
-      );
+    this.renderer.setStyle(this.elRef.nativeElement, 'transition', this.transitionValue);
+    this.renderer.setStyle(this.elRef.nativeElement, 'overflow', 'hidden');
+    if (!this.open) {
+      this.renderer.setStyle(this.elRef.nativeElement, 'height', `${this.closedHeight}px`);
       this.inProgress = false;
-    });
+    } else {
+      timer(1).subscribe(() => {
+        const contentHeight = this.getContentHeight(this.elRef.nativeElement);
+        this.renderer.setStyle(this.elRef.nativeElement, 'height', `${contentHeight}px`);
+        this.inProgress = false;
+      });
+    }
   }
 
   private getContentHeight(element: any): number {
@@ -115,6 +130,7 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
     if (children && children.length) {
       for (const child of children) {
         contentHeight += child && child.clientHeight ? child.clientHeight : 0;
+        console.log(child.clientHeight, child.offsetHeight, child.scrollHeight);
       }
     }
     contentHeight += this.getMarginHeightOfChildren(children);
@@ -125,14 +141,8 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
     let totalMarginHeight = 0;
     let previousChildMarginBottom = 0;
     for (const child of children) {
-      let marginTop = 0;
-      let marginBottom = 0;
-      try {
-        marginTop = +window.getComputedStyle(child).marginTop.replace('px', '');
-        marginBottom = +window.getComputedStyle(child).marginBottom.replace('px', '');
-      } catch (error) {
-        console.warn("Couldn't read marginTop and marginBottom property!", error);
-      }
+      const marginTop = +window.getComputedStyle(child).marginTop.replace('px', '');
+      const marginBottom = +window.getComputedStyle(child).marginBottom.replace('px', '');
       totalMarginHeight += marginBottom + (marginTop > previousChildMarginBottom ? marginTop - previousChildMarginBottom : 0);
       previousChildMarginBottom = marginBottom;
     }
