@@ -13,11 +13,11 @@ const routes: Routes = [
   },
   {
     path: 'default-collapsible',
-    loadChildren: './demo/default-collapsible-page/default-collapsible-page.module#DefaultCollapsiblePageModule'
+    loadChildren: './demo/pages/default-collapsible-page/default-collapsible-page.module#DefaultCollapsiblePageModule'
   },
   {
     path: 'collapsible-in-collapsible',
-    loadChildren: './demo/collapsible-in-collapsible-page/collapsible-in-collapsible-page.module#CollapsibleInCollapsiblePageModule'
+    loadChildren: './demo/pages/collapsible-in-collapsible-page/collapsible-in-collapsible-page.module#CollapsibleInCollapsiblePageModule'
   },
   {
     path: '**',
