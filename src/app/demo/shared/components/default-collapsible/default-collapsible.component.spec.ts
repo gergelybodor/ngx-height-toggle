@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DefaultCollapsibleComponent } from './default-collapsible.component';
 
 describe('DefaultCollapsibleComponent', () => {
@@ -8,9 +7,8 @@ describe('DefaultCollapsibleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DefaultCollapsibleComponent ]
-    })
-    .compileComponents();
+      declarations: [DefaultCollapsibleComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +17,7 @@ describe('DefaultCollapsibleComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create DefaultCollapsibleComponent', () => {
     expect(component).toBeTruthy();
   });
 });
