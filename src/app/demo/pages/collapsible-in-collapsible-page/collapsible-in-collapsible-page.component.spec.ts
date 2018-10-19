@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollapsibleInCollapsiblePageComponent } from './collapsible-in-collapsible-page.component';
-import { CollapsibleInCollapsibleModule } from '../shared/components/collapsible-in-collapsible/collapsible-in-collapsible.module';
+import { CollapsibleInCollapsibleModule } from '../../shared/components/collapsible-in-collapsible/collapsible-in-collapsible.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CollapsibleInCollapsiblePageComponent', () => {

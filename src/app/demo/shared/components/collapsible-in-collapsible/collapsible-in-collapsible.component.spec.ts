@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollapsibleInCollapsibleComponent } from './collapsible-in-collapsible.component';
+import { NgxHeightToggleModule } from '../../../../modules/ngx-height-toggle/ngx-height-toggle.module';
+import { DefaultCollapsibleModule } from '../default-collapsible/default-collapsible.module';
 
 describe('CollapsibleInCollapsibleComponent', () => {
   let component: CollapsibleInCollapsibleComponent;
@@ -7,6 +9,7 @@ describe('CollapsibleInCollapsibleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [NgxHeightToggleModule, DefaultCollapsibleModule],
       declarations: [CollapsibleInCollapsibleComponent]
     }).compileComponents();
   }));
