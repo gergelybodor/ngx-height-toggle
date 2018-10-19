@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren: './demo/getting-started/getting-started.module#GettingStartedModule'
   },
   {
-    path: 'height-change',
-    loadChildren: './demo/height-change/height-change.module#HeightChangeModule'
+    path: 'default-collapsible',
+    loadChildren: './demo/default-collapsible-page/default-collapsible-page.module#DefaultCollapsiblePageModule'
   },
   {
     path: 'collapsible-in-collapsible',
