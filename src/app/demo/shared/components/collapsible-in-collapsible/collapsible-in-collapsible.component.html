@@ -1,0 +1,10 @@
+<div class="collapsible-container">
+  <div class="collapsible-header" [class.open]="open">
+    <button class="btn" (click)="toggle()">{{open ? 'Close' : 'Open'}}</button>
+  </div>
+  <div class="collapsible" ngxHeightToggle [open]="open" [enableChangeDetection]="false">
+    <div class="collapsible-content">
+      <ngx-default-collapsible></ngx-default-collapsible>
+    </div>
+  </div>
+</div>

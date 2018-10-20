@@ -2,58 +2,64 @@
 
 [![npm version](https://badge.fury.io/js/ngx-height-toggle.svg)](https://badge.fury.io/js/ngx-height-toggle)
 
-As of yet, there is no easy way to change the height of html elements from 0 to auto and back in angular. You can only go so far with css code. Even if you make it work, you might want to change the height when the element's content changes.
-I faced these problems myself and decided to create this package, with which you can accomplish said things.
-
-This implementation is far from being perfect, so if you find some bug please report it on github issues, thanks!
-
 ## Table of Contents
 
 - [Demo](#demo)
 - [Dependencies](#dependencies)
 - [Installation](#installation)
-- [Developing](#developing)
+- [Usage](#usage)
+- [Directive inputs](#directive-inputs)
 
 ## Demo
 
-Check out the demo at https://bgolyoo.github.io/ngx-height-toggle
+Check out the demo at https://stackblitz.com/edit/ngx-height-toggle-demo
 
 ## Dependencies
-* [Angular](https://angular.io) (tested with 6.0.5)
-* [Angular CLI](https://github.com/angular/angular-cli) (tested with 6.0.8)
+
+- @angular/common: ^5.1.0
+- @angular/core: ^5.1.0
+- rxjs: ^6.3.3
 
 ## Installation
-After installing the above dependencies, install `ngx-height-toggle` via npm:
+
+Install `ngx-height-toggle` via npm:
+
 ```shell
 npm install --save ngx-height-toggle
 ```
+
 or with yarn:
+
 ```shell
 yarn add ngx-height-toggle
 ```
+
 Once installed you need to import `NgxHeightToggleModule` in your module where you'd like to use the directive:
+
 ```js
 import { NgxHeightToggleModule } from 'ngx-height-toggle';
 
 @NgModule({
   declarations: [MyComponent, ...],
-  imports: [NgxHeightToggleModule, ...], 
+  imports: [NgxHeightToggleModule, ...],
 })
-export class MyModule {
-}
+export class MyModule { }
 ```
 
 ## Usage
 
-### Height change
+### Default Height change
 
 You have to add the directive `ngxHeightToggle` to the element you want to toggle, and pass a variable telling it whether it should be expanded or collapsed.
+
 ```html
 <div class="collapsible" ngxHeightToggle [open]="open">
     <p>some text</p>
 </div>
 ```
-When you toggle the height change the variable.
+
+When you want to toggle the height, change the variable.
+
 ```js
 export class MyComponent {
 
@@ -65,57 +71,21 @@ export class MyComponent {
 
 }
 ```
-The other important thing is you have to specify a transition and overflow for your element in css.
-```css
-.collapsible {
-    overflow: hidden;
-    transition: height 0.5s ease-out;
-}
-```
 
-### Content change
+> The directive will automatically adjust the height when the content height changes.
 
-If you want to adjust the element's height when its content changes, import `HeightToggleService` into your component and call its `contentChange` method after setting your content.
-```html
-<div class="collapsible" ngxHeightToggle [open]="open">
-    <p>{{content}}</p>
-</div>
-``` 
-```js
-import { NgxHeightToggleService } from 'ngx-height-toggle';
+### Collapsible in another collapsible
 
-export class MyComponent {
+In case you want to include a collapsible inside another collapsible, you need to disable change detection for the wrapper collapsible directive.
 
-    public open = false;
-    public content = 'some text';
-    
-    constructor(private heightToggleService: NgxHeightToggleService) { }
+## Directive inputs
 
-    public toggle(): void {
-        this.open = !this.open;
-    }
-
-    public updateContent(): void {
-        this.content = 'some other text';
-        this.heightToggleService.contentChange();
-    }
-
-}
-```
-
-## Developing
-
-If you want to work on this project, first you need to clone it from the github repository.
-
-When that's done install dependencies via npm:
-```shell
-npm install
-```
-or if you have yarn installed:
-```shell
-yarn
-```
-To serve to application run the following:
-```shell
-ng serve --aot
-```
+| Input name               | Type    | Default value | Note                                                                                                                                                                                                                |
+| ------------------------ | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| open                     | boolean | required      | Depending on the value the directive will close or open.                                                                                                                                                            |
+| closedHeight             | number  | 0             | Specifies the height of closed state in pixels.                                                                                                                                                                     |
+| transitionDuration       | number  | 500           | Standard css property for [translation-duration](https://www.w3schools.com/cssref/css3_pr_transition-duration.asp). Specify in ms.                                                                                  |
+| transitionProperty       | string  | 'height'      | Standard css property for [transition-property](https://www.w3schools.com/cssref/css3_pr_transition-property.asp). Other than 'height', only option that makes sense is using 'all', if needed.                     |
+| transitionTimingFunction | string  | 'linear'      | Standard css property for [transition-timing-function](https://www.w3schools.com/cssref/css3_pr_transition-timing-function.asp).                                                                                    |
+| transitionDelay          | number  | 0             | Standard css property for [transition-delay](https://www.w3schools.com/cssref/css3_pr_transition-delay.asp). Specify in ms.                                                                                         |
+| enableChangeDetection    | boolean | true          | Use this input to turn off change detection. Unless disabled the directive will check the content height in every `AfterViewChecked` lifecycle hook and change the directive's height to the height of its content. |
