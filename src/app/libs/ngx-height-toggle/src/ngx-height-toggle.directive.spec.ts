@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-height-toggle-test',
+  selector: 'ngx-height-toggle-test',
   template: `
     <div class="debug-element" ngxHeightToggle [open]="open" [closedHeight]="closedHeight">
       <p *ngIf="showChildInDOM">{{paragraph}}</p>
@@ -86,7 +86,7 @@ describe('NgxHeightToggleDirective', () => {
     directive = debugElement.injector.get<NgxHeightToggleDirective>(NgxHeightToggleDirective);
   });
 
-  it('should create component', () => {
+  it('should create test component', () => {
     expect(component).toBeTruthy();
   });
 

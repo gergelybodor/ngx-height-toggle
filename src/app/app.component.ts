@@ -2,18 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ngx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  appTitle = 'ngx-height-toggle';
 
-  private packageTitle = 'ngx-height-toggle';
+  constructor(private title: Title) {}
 
-  constructor(private title: Title) { }
-
-  ngOnInit(): void {
-    this.title.setTitle(this.packageTitle);
+  ngOnInit() {
+    this.title.setTitle(this.appTitle);
   }
-
 }

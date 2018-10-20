@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'default-collapsible',
-    loadChildren: './demo/pages/default-collapsible-page/default-collapsible-page.module#DefaultCollapsiblePageModule'
+    loadChildren: './pages/default-collapsible-page/default-collapsible-page.module#DefaultCollapsiblePageModule'
   },
   {
     path: 'collapsible-in-collapsible',
-    loadChildren: './demo/pages/collapsible-in-collapsible-page/collapsible-in-collapsible-page.module#CollapsibleInCollapsiblePageModule'
+    loadChildren: './pages/collapsible-in-collapsible-page/collapsible-in-collapsible-page.module#CollapsibleInCollapsiblePageModule'
   },
   {
     path: '**',
@@ -25,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class DemoRoutingModule {}

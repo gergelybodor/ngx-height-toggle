@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../../node_modules/ng-packagr/package.schema.json",
+  "name": "ngx-height-toggle",
+  "version": "1.0.4",
+  "description": "Angular(2+) directive to change the height of html elements to their content's height on toggle and on content change.",
+  "keywords": [
+    "angular",
+    "angular2",
+    "ngx",
+    "ngx-height-toggle",
+    "height-toggle",
+    "content-change",
+    "npm-package"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgolyoo/ngx-height-toggle.git"
+  },
+  "author": "Bodor Gergely",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bgolyoo/ngx-height-toggle/issues"
+  },
+  "homepage": "https://github.com/bgolyoo/ngx-height-toggle#readme",
+  "private": false,
+  "peerDependencies": {
+    "@angular/common": "^5.1.0",
+    "@angular/core": "^5.1.0",
+    "rxjs": "^6.3.3"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts"
+    },
+    "dest": "../../../../dist/ngx-height-toggle-lib"
+  }
+}

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-default-collapsible',
+  selector: 'ngx-default-collapsible',
   templateUrl: './default-collapsible.component.html',
   styleUrls: ['./default-collapsible.component.scss']
 })

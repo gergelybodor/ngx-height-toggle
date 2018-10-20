@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DefaultCollapsibleComponent } from './default-collapsible.component';
-import { NgxHeightToggleModule } from '../../../../modules/ngx-height-toggle/ngx-height-toggle.module';
+import { NgxHeightToggleModule } from '../../../../libs/ngx-height-toggle/src/ngx-height-toggle.module';
 
 @NgModule({
   imports: [CommonModule, NgxHeightToggleModule],

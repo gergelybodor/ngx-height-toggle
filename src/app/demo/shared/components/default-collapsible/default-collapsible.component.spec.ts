@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DefaultCollapsibleComponent } from './default-collapsible.component';
-import { NgxHeightToggleModule } from '../../../../modules/ngx-height-toggle/ngx-height-toggle.module';
+import { NgxHeightToggleModule } from '../../../../libs/ngx-height-toggle/src/ngx-height-toggle.module';
 
 describe('DefaultCollapsibleComponent', () => {
   let component: DefaultCollapsibleComponent;

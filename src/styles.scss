@@ -1,10 +1,19 @@
+@import '~bootstrap/scss/_functions';
+@import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/_mixins';
+@import '~bootstrap/scss/_reboot';
+@import '~bootstrap/scss/_buttons';
+@import '~bootstrap/scss/_transitions';
+@import '~bootstrap/scss/_nav';
+@import '~bootstrap/scss/_navbar';
+@import '~bootstrap/scss/_utilities';
+
 body {
   background-color: #dddddd;
 }
 
 .btn {
   box-shadow: none !important;
-  cursor: pointer;
 }
 
 .collapsible-container {

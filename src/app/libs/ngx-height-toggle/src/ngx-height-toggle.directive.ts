@@ -85,7 +85,6 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
     const contentHeight = this.getContentHeight(this.elRef.nativeElement);
     this.renderer.setStyle(this.elRef.nativeElement, 'height', `${toHeight ? toHeight : contentHeight}px`);
     timer(this.transitionDuration).subscribe(() => {
-      console.log(this.currentHeight, contentHeight);
       // if (!this.enableChangeDetection && Math.ceil(this.currentHeight) === contentHeight) {
       //   this.renderer.removeStyle(this.elRef.nativeElement, 'height');
       // }
@@ -130,7 +129,6 @@ export class NgxHeightToggleDirective implements OnInit, OnChanges, AfterViewChe
     if (children && children.length) {
       for (const child of children) {
         contentHeight += child && child.clientHeight ? child.clientHeight : 0;
-        console.log(child.clientHeight, child.offsetHeight, child.scrollHeight);
       }
     }
     contentHeight += this.getMarginHeightOfChildren(children);
