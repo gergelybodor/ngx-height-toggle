@@ -1,3 +1,5 @@
+> This packages has been deprecated!
+
 # ngx-height-toggle - [Angular(2+)](http://angular.io/) directive to change the height of html elements to their content's height on toggle and on content change.
 
 [![npm version](https://badge.fury.io/js/ngx-height-toggle.svg)](https://badge.fury.io/js/ngx-height-toggle)
